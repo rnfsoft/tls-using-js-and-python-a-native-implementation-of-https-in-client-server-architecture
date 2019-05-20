@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/node-forge@0.7.0/dist/forge.min.js"></script>
+    <script>
+        function login(event){
+            event.preventDefault()
+            let username = document.getElementById('username').value
+            let password = document.getElementById('pwd').value
+            let reqBody = {
+                username,
+                password
+            }
+            fetch('http://127.0.0.1:5000/login',{
+                method: 'POST',
+                body: JSON.stringify(reqBody)
+            }).then(res => res.json()).then(response=>{
+                document.getElementById('result').innerText = JSON.stringify(response);
+                document.getElementById('result').style.color = response.status == 'Success'?'green': 'red'
+            }).catch(err=>{
+                console.log(err)
+            })
+        }
+        
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="header">Admin Login</h2>
+        <form onsubmit="login(event)">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter user name" name="username">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="text" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+            <div id="result" style="text-align: center;font-size:30px"></div>
+    </div>
+
+</body>    
+</html>
